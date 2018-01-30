@@ -1,12 +1,23 @@
 const Letter = require('./Letter.js');
-var colors = require('colors');
+const colors = require('colors');
 
-
+/**
+ * Class that defines a Word, which is
+ * made up of Letter objects.
+ * @param {*} word_string 
+ */
 function Word (word_string){
 
+    //represents the guesses left for this word.
     this.guesses = 10;
+    //boolean that tells us whether the word has
+    //been correctly guessed.
     this.guessed = false;
+    //Array of incorrect guesses.
+    this.wrong_guesses = [];
     
+    //Function that converts the word from a string
+    //to an array made of Letter objects.
     this.convertString = function (word_string){
 
         var word_array = word_string.split('');
@@ -22,8 +33,11 @@ function Word (word_string){
         return letters;
     };
 
+    //Array of letter Objects.
     this.letter_array = this.convertString(word_string);
 
+    //Function that displays the word, calling displayLetter
+    //on each letter object.
     this.displayWord = function(){
 
         var displayed_word = [];
@@ -41,11 +55,16 @@ function Word (word_string){
         }
 
         displayed_word = displayed_word.reduce((prev, curr) => prev + ' ' + curr);
-
+        console.log('Wrong guesses: ' + this.wrong_guesses + '\n');
         console.log(displayed_word);
 
     };
 
+    //Function that processes a guess for this word.
+    //Skips over previously correctly guessed letters.
+    //Displays when correct in green letters. When
+    //incorrect, displays in red and pushes incorrect
+    //letter to wrong_guesses.
     this.guess = function(guess){
 
         var guessed_letter = guess.toLowerCase();
@@ -75,6 +94,7 @@ function Word (word_string){
         if(correct === false){
             console.log('Incorrect Guess!'.red);
             this.guesses--;
+            this.wrong_guesses.push(guessed_letter);
 
         }
 

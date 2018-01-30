@@ -1,13 +1,20 @@
+/**
+ * Dependencies.
+ */
 const Letter = require('./Letter.js');
 const Word = require('./Word.js');
 const inquirer = require('inquirer');
 const fs = require('fs');
 
+//Array of the available words to use.
 var words = [];
+//The word
 var word = '';
+//Initialized value for guesses.
 var guesses_left = 0;
 
-
+//Function that allows players to add word when
+//the game is won.
 var addWord = function(){
 
     inquirer.prompt([
@@ -32,6 +39,7 @@ var addWord = function(){
 
 };
 
+//Main game engine.
 var run = function(game_word) {
 
     guesses_left = game_word.guesses;
@@ -77,6 +85,7 @@ var run = function(game_word) {
     });
 }
 
+//Function that sets the game up and then calls the first run().
 var setUp = function(){
     fs.readFile('words.txt', 'utf8', function(error, data){
 
